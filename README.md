@@ -24,3 +24,6 @@ gulp test - TODO
 gulp serve - TODO
 gulp bundle - TODO
 gulp package-solution - TODO
+
+Easy-Tabs for Modern UI
+Developed using SharePoint Framework
