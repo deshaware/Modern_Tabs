@@ -1,0 +1,18 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "easy-tabs-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/easyTabs/EasyTabsWebPart.js",
+          "manifest": "./src/webparts/easyTabs/EasyTabsWebPart.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "EasyTabsWebPartStrings": "lib/webparts/easyTabs/loc/{locale}.js"
+  }
+}

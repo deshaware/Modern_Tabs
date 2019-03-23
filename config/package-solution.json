@@ -1,0 +1,13 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "lti-solutions-client-side-solution",
+    "id": "bf8c9dfb-44dd-4dff-8884-32f26bdf3f7a",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "isDomainIsolated": false
+  },
+  "paths": {
+    "zippedPackage": "solution/lti-solutions.sppkg"
+  }
+}
