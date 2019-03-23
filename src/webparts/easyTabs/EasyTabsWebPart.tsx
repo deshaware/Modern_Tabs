@@ -62,7 +62,8 @@ export default class EasyTabsWebPart extends BaseClientSideWebPart<IEasyTabsWebP
     }
     const element = (
       <Provider store={this.store}>
-        <SiteContainer onPropertyPaneChange={this.webPartProperties} context={this.currentContext} usage="1" />
+        {/* <SiteContainer onPropertyPaneChange={this.webPartProperties} context={this.currentContext} usage="1" /> */}
+        <EasyTabs context={this.currentContext} description={this.properties.description} />
       </Provider>
     );
     ReactDom.render(element, this.domElement);

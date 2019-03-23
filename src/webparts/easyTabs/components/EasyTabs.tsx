@@ -7,8 +7,9 @@ import getContext from '../actions/init';
 
 
 class EasyTabs extends React.Component<IEasyTabsProps, {}> {
+
   public componentDidMount(){
-    if(!this.props.siteContext){
+    if(this.props.siteContext){
       console.log('%c MyApp:' , 'background:green;color:white' , "Site Context Empty, hence fetching data" );
         this.props.getContext(this.props.context);
     } else {
@@ -17,6 +18,8 @@ class EasyTabs extends React.Component<IEasyTabsProps, {}> {
   }
 
   public render(): React.ReactElement<IEasyTabsProps> {
+    console.log('%c MyApp:' , 'background:green;color:white' , "Site Context is" );
+    console.log('%c MyApp:' , 'background:green;color:white' , this.props.siteContext );
     return (
      <div>
        Hello World
