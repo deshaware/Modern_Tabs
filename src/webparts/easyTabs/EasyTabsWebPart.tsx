@@ -31,8 +31,7 @@ export interface IEasyTabsWebPartProps {
   webpartname: number;
   context:IContext;
 }
-
-export interface IContext{
+export interface IContext {
     spHttpClient:SPHttpClient;
     siteURL:string;
 }
@@ -43,27 +42,27 @@ export interface ICustomProps{
 export default class EasyTabsWebPart extends BaseClientSideWebPart<IEasyTabsWebPartProps> {
   private store: Store<IState>;
   private webPartProperties:ICustomProps;
+  private currentContext:IContext;
 
   public constructor() {
     super();
     this.store = createStore();
-    getCurrentContext();
   }  
 
   public render(): void {
-    console.log('%c MyApp:' , 'background:green;color:white' , "this is" );
-    // console.log('%c MyApp:' , 'background:green;color:white' , this );
     this.webPartProperties = {
       description: this.properties.description,
       webpartname: this.properties.webpartname
     }; 
-    // this.properties.context={
-    //   siteURL:this.context.pageContext.web.absoluteUrl,
-    //   spHttpClient:this.context.spHttpClient
-    // }; 
+    if(this.context){
+      this.currentContext= {
+        siteURL:this.context.pageContext.web.absoluteUrl,
+        spHttpClient:this.context.spHttpClient
+      }; 
+    }
     const element = (
       <Provider store={this.store}>
-        <SiteContainer onPropertyPaneChange={this.webPartProperties} context={this.properties.context} />
+        <SiteContainer onPropertyPaneChange={this.webPartProperties} context={this.currentContext} usage="1" />
       </Provider>
     );
     ReactDom.render(element, this.domElement);

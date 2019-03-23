@@ -8,6 +8,7 @@ import { SPHttpClient } from '@microsoft/sp-http';
 
 export interface IUsage{
     usage:number;
+    usageState:number;
     description:string;
     context:IContext;
     onPropertyPaneChange:ICustomProps;
@@ -19,10 +20,16 @@ class SiteContainer extends React.Component<IUsage,{}>{
         
     public componentDidMount(){
         console.log('%c MyApp:' , 'background:green;color:white' , "Site Usage Class called" );
-        console.log('%c MyApp:' , 'background:green;color:white' , this.props.context );
+        console.log('%c MyApp:' , 'background:green;color:white' , this.props.usageState );
+        if(this.props.usage){
         this.props.fetchUsage("https://lti3.sharepoint.com");
         this.props.getContext(this.props.context);
-        // this.props.configFromPane(this.props.)
+        }
+    }
+    public componentDidUpdate(prev:any,next:any){
+        console.log('%c MyApp:' , 'background:green;color:white' , "Component updated" );
+        console.log('%c MyApp:' , 'background:green;color:white' , prev );
+        console.log('%c MyApp:' , 'background:green;color:white' , next );
     }
 
     public render():JSX.Element{
@@ -38,7 +45,7 @@ class SiteContainer extends React.Component<IUsage,{}>{
 
 const mapStateToProps = (state:any) =>{
     return {
-        usage:state.usage
+        usageState:state.usage
     };
 };
 export default connect(mapStateToProps,{fetchUsage,getContext})(SiteContainer);
