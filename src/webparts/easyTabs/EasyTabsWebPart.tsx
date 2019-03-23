@@ -11,8 +11,8 @@ import {
 } from '@microsoft/sp-property-pane';
 
 // import * as strings from 'EasyTabsWebPartStrings';
-import EasyTabs from './components/EasyTabs';
-import { IEasyTabsProps } from './components/IEasyTabsProps';
+import EasyTabsContainer from './containers/EasyTabsContainer';
+import { IEasyTabsContainerProps } from './containers/IEasyTabsContainerProps';
 
 import { Store } from 'redux';
 import { Provider } from 'react-redux';
@@ -63,7 +63,7 @@ export default class EasyTabsWebPart extends BaseClientSideWebPart<IEasyTabsWebP
     const element = (
       <Provider store={this.store}>
         {/* <SiteContainer onPropertyPaneChange={this.webPartProperties} context={this.currentContext} usage="1" /> */}
-        <EasyTabs context={this.currentContext} description={this.properties.description} />
+        <EasyTabsContainer context={this.currentContext} description={this.properties.description} />
       </Provider>
     );
     ReactDom.render(element, this.domElement);
