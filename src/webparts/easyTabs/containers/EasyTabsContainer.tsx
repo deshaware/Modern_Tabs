@@ -4,6 +4,7 @@ import { escape } from '@microsoft/sp-lodash-subset';
 import { connect } from 'react-redux';
 import getContext from '../actions/init';
 import EasyTabs from '../components/EasyTabs';
+import PivotItemContainer from './PivotItemContainer';
 
 
 class EasyTabsContainer extends React.Component<IEasyTabsContainerProps, {}> {
@@ -20,7 +21,8 @@ class EasyTabsContainer extends React.Component<IEasyTabsContainerProps, {}> {
   public render(): JSX.Element {
     return (
      <div>
-         <EasyTabs></EasyTabs>
+         {/* <EasyTabs></EasyTabs> */}
+         <PivotItemContainer test="hi"></PivotItemContainer>
      </div>
     );
   }

@@ -23,8 +23,6 @@ import SiteContainer from './containers/SiteContainer';
 import { SPHttpClient, SPHttpClientResponse } from "@microsoft/sp-http";
 import {IUsage} from './containers/SiteContainer';
 
-//to be removed
-import {getCurrentContext} from "./actions";
 
 export interface IEasyTabsWebPartProps {
   description: string;
