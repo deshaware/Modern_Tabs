@@ -1,5 +1,5 @@
 
-import {CURRENT_CONTEXT} from '../actions/types';
+import {CURRENT_CONTEXT,GET_LISTS} from '../actions/types';
 import {IContext} from '../EasyTabsWebPart';
 const initialState = {
     siteContext:{}
@@ -12,6 +12,8 @@ export interface IAction{
     payload:number;
 }
 
+
+
 export default(state=initialState,action:IAction) : any => {
     console.log('%c MyApp:' , 'background:green;color:white',"reducer adding current context");
     console.log('%c MyApp:' , 'background:green;color:white',action.payload);
@@ -20,6 +22,11 @@ export default(state=initialState,action:IAction) : any => {
             return {
                 ...state,
                 siteContext:action.payload
+            };
+            case GET_LISTS:
+            return {
+                ...state,
+                listDetails:action.payload
             };
         default:
             return state;

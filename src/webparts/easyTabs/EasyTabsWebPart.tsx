@@ -1,13 +1,14 @@
 import * as React from 'react';
 import * as ReactDom from 'react-dom';
 import { Version } from '@microsoft/sp-core-library';
-import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
+import { BaseClientSideWebPart, PropertyPaneDynamicField } from '@microsoft/sp-webpart-base';
 import {
   IPropertyPaneConfiguration,
   PropertyPaneTextField,
   PropertyPaneDropdown,
   IPropertyPaneDropdownProps,
-  IPropertyPaneDropdownOption
+  IPropertyPaneDropdownOption,
+  PropertyPaneDropdownOptionType
 } from '@microsoft/sp-property-pane';
 
 // import * as strings from 'EasyTabsWebPartStrings';
@@ -23,11 +24,10 @@ import SiteContainer from './containers/SiteContainer';
 import { SPHttpClient, SPHttpClientResponse } from "@microsoft/sp-http";
 import {IUsage} from './containers/SiteContainer';
 
-
 export interface IEasyTabsWebPartProps {
-  description: string;
-  webpartname: number;
   context:IContext;
+  webpartname: string;
+  onConfigChange: () => {};
 }
 export interface IContext {
     spHttpClient:SPHttpClient;
@@ -37,10 +37,12 @@ export interface ICustomProps{
   description: string;
   webpartname: number;
 }
+
+
 export default class EasyTabsWebPart extends BaseClientSideWebPart<IEasyTabsWebPartProps> {
   private store: Store<IState>;
-  private webPartProperties:ICustomProps;
   private currentContext:IContext;
+  protected dropdownItems:IPropertyPaneDropdownOption[];
 
   public constructor() {
     super();
@@ -48,10 +50,9 @@ export default class EasyTabsWebPart extends BaseClientSideWebPart<IEasyTabsWebP
   }  
 
   public render(): void {
-    this.webPartProperties = {
-      description: this.properties.description,
-      webpartname: this.properties.webpartname
-    }; 
+    // this.webPartProperties = {
+    //   webpartname: this.properties.webpartname
+    // }; 
     if(this.context){
       this.currentContext= {
         siteURL:this.context.pageContext.web.absoluteUrl,
@@ -61,12 +62,68 @@ export default class EasyTabsWebPart extends BaseClientSideWebPart<IEasyTabsWebP
     const element = (
       <Provider store={this.store}>
         {/* <SiteContainer onPropertyPaneChange={this.webPartProperties} context={this.currentContext} usage="1" /> */}
-        <EasyTabsContainer context={this.currentContext} description={this.properties.description} />
+        <EasyTabsContainer onConfigChange={(listDetails:any) => this.getListDetails(listDetails)} context={this.currentContext} />
       </Provider>
     );
     ReactDom.render(element, this.domElement);
   }
 
+  protected getListDetails = (listDetails:any) => {
+    this.dropdownItems = [];
+    console.log('%c MyApp:' , 'background:yellow;color:red' , "get library name called back happened" );
+    console.log('%c MyApp:' , 'background:yellow;color:red' , listDetails.value );
+    // console.log('%c MyApp:' , 'background:yellow;color:red' , listDetails[0].Title );
+    listDetails.value.map((v:any,index:number)=>{
+      console.log('%c MyApp:' , 'background:yellow;color:red' , v.Title );
+      this.dropdownItems.push({key:index,text:v.Title});
+    });
+    console.log('%c MyApp:' , 'background:yellow;color:red' , this.dropdownItems );
+  }
+
+  protected getPropertyPaneConfiguration(): IPropertyPaneConfiguration {
+    console.log('%c MyApp:' , 'background:green;color:white' , "getPropertyPaneConfiguration" );
+    console.log('%c MyApp:' , 'background:green;color:white' , this.properties.webpartname );
+    console.log('%c MyApp:' , 'background:green;color:white' , "test" );
+    return {
+      pages: [
+        {
+          header: {
+            description: "Configure Tab details over here"
+          },
+          displayGroupsAsAccordion:true,
+          groups: [
+            {
+              groupName: "Tab Configuration",
+              groupFields: [
+                PropertyPaneTextField('description', {
+                  label: "Tab 1 Name",
+                  onGetErrorMessage:this.onGetErrorMessage()
+                }),
+                // PropertyPaneDynamicField('webpartname',
+                // {
+                //   label:"Document Library Name"
+                // })
+                PropertyPaneDropdown('webpartname',{
+                  label: "Document Library",
+                  options:this.dropdownItems,
+                  
+                })                            
+              ],
+            }
+          ]
+        }
+      ]
+    };
+  }
+  protected getLibraryNames(): IPropertyPaneDropdownOption[] {
+    return ;
+  }
+
+  protected onGetErrorMessage():any{
+    
+  }
+  
+  //usual methods
   protected onDispose(): void {
     ReactDom.unmountComponentAtNode(this.domElement);
   }
@@ -75,29 +132,12 @@ export default class EasyTabsWebPart extends BaseClientSideWebPart<IEasyTabsWebP
     return Version.parse('1.0');
   }
 
-  protected getPropertyPaneConfiguration(): IPropertyPaneConfiguration {
-    console.log('%c MyApp:' , 'background:green;color:white' , "change is"+this.webPartProperties.description );
-    return {
-      pages: [
-        {
-          header: {
-            description: "PropertyPaneDescriptio"
-          },
-          groups: [
-            {
-              groupName: "BasicGroupName",
-              groupFields: [
-                PropertyPaneTextField('description', {
-                  label: "DescriptionFieldLabel"
-                }),
-                PropertyPaneTextField('webpartname', {
-                  label: "Web Part Name"
-                })            
-              ]
-            }
-          ]
-        }
-      ]
-    };
+  // protected onBeforeSerialize(): void{
+  //   console.log('%c MyApp:' , 'background:yellow;color:red' , "onBeforeSerialize" );
+  //   console.log('%c MyApp:' , 'background:yellow;color:red' , this.properties );
+  // }
+
+  protected get disableReactivePropertyChanges(): boolean { 
+    return true; 
   }
 }

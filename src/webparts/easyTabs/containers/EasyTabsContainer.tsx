@@ -24,9 +24,18 @@ class EasyTabsContainer extends React.Component<IEasyTabsContainerProps, {}> {
       // debugger;
       this.props.getContext(this.props.context);
     } else {
-      this.props.getLists(this.props.siteContext.siteURL,this.props.siteContext.spHttpClient);
-      console.log('%c MyApp:' , 'background:green;color:white' , "Already loaded once" );
-    }    
+      if(isEmpty(this.props.listDetails)){
+        this.props.getLists(this.props.siteContext.siteURL,this.props.siteContext.spHttpClient);
+        console.log('%c MyApp:' , 'background:green;color:white' , "Already loaded once" );
+      }      
+    }
+    
+    //to call parent and give the list details//
+    //hence I am calling a callback function to pass the lists
+    if(this.props.listDetails){
+      console.log('%c MyApp:' , 'background:green;color:white' , "Found list Details, now returning" );
+      this.props.onConfigChange(this.props.listDetails);
+    }
   }
 
   public render(): JSX.Element {
@@ -44,7 +53,8 @@ class EasyTabsContainer extends React.Component<IEasyTabsContainerProps, {}> {
 
 const mapStateToProps = (state:any) => {
   return {
-    siteContext:state.currentContext.siteContext
+    siteContext:state.currentContext.siteContext,
+    listDetails:state.currentContext.listDetails
   };
 };
 
