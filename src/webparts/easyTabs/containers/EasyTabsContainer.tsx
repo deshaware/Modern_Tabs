@@ -1,24 +1,38 @@
 import * as React from 'react';
 import { IEasyTabsContainerProps } from './IEasyTabsContainerProps';
-import { escape } from '@microsoft/sp-lodash-subset';
+import { escape, isEmpty } from '@microsoft/sp-lodash-subset';
 import { connect } from 'react-redux';
 import getContext from '../actions/init';
 import EasyTabs from '../components/EasyTabs';
 import PivotItemContainer from './PivotItemContainer';
+import getLists from '../actions/getLists';
 
 
 class EasyTabsContainer extends React.Component<IEasyTabsContainerProps, {}> {
 
   public componentDidMount(){
-    if(this.props.siteContext){
+   
+  }
+
+  public fetchDetails(){
+    console.log('%c MyApp:' , 'background:blue;color:white' , "siteContext in component didmount EasyTabsContainer" );
+    console.log('%c MyApp:' , 'background:blue;color:white' , this.props.siteContext );
+    if(isEmpty(this.props.siteContext)){
+      // getLists(this.props.siteContext.siteURL,this.props.siteContext.spHttpClient);
       console.log('%c MyApp:' , 'background:green;color:white' , "Site Context Empty, hence fetching data" );
-        this.props.getContext(this.props.context);
+      console.log('%c MyApp:' , 'background:yello;color:white' , this.props );
+      // debugger;
+      this.props.getContext(this.props.context);
     } else {
+      this.props.getLists(this.props.siteContext.siteURL,this.props.siteContext.spHttpClient);
       console.log('%c MyApp:' , 'background:green;color:white' , "Already loaded once" );
     }    
   }
 
   public render(): JSX.Element {
+    this.fetchDetails();
+    console.log('%c MyApp:' , 'background:green;color:white' , "Props in EasyTabsContainer" );
+    console.log('%c MyApp:' , 'background:red;color:white' , this.props );
     return (
      <div>
          {/* <EasyTabs></EasyTabs> */}
@@ -30,8 +44,8 @@ class EasyTabsContainer extends React.Component<IEasyTabsContainerProps, {}> {
 
 const mapStateToProps = (state:any) => {
   return {
-    siteContext:state.currentContext
+    siteContext:state.currentContext.siteContext
   };
 };
 
-export default connect(mapStateToProps,{getContext})(EasyTabsContainer);
+export default connect(mapStateToProps,{getContext,getLists})(EasyTabsContainer);
