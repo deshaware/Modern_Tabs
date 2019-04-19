@@ -45,7 +45,7 @@ class EasyTabsContainer extends React.Component<IEasyTabsContainerProps, {}> {
     return (
      <div>
          {/* <EasyTabs></EasyTabs> */}
-         <PivotItemContainer test="hi"></PivotItemContainer>
+         <PivotItemContainer></PivotItemContainer>
      </div>
     );
   }

@@ -6,7 +6,7 @@ const ShowUsage = ({usage}) => {
 
     const renderUsage = () => {
         if(usage.usage === 0){
-            return (<div>Loading</div>);
+            return <div>Loading</div>;
         } else {
             return (<h3>{usage.usage}</h3>);
         }

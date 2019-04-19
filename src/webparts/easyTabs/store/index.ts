@@ -18,6 +18,6 @@ export function createStore(initialState?: IState): Store<IState> {
 
   return reduxCreateStore(rootReducer, initialState, compose(
     applyMiddleware(...middlewares),
-    (window as any).__REDUX_DEVTOOLS_EXTENSION__ && (window as any).__REDUX_DEVTOOLS_EXTENSION__()
+    (window as any).__REDUX_DEVTOOLS_EXTENSION__ ? (window as any).__REDUX_DEVTOOLS_EXTENSION__() : f => f
   ));
 }
