@@ -78,9 +78,6 @@ export default class EasyTabsWebPart extends BaseClientSideWebPart<IEasyTabsWebP
 
   protected getListDetails = (listDetails:any) => {
     this.dropdownItems = [];
-    // console.log('%c MyApp:' , 'background:yellow;color:red' , "get library name called back happened" );
-    // console.log('%c MyApp:' , 'background:yellow;color:red' , listDetails.value );
-    // // console.log('%c MyApp:' , 'background:yellow;color:red' , listDetails[0].Title );
     listDetails.value.map((v:any,index:number)=>{
       console.log('%c MyApp:' , 'background:yellow;color:red' , v.Title );
       this.dropdownItems.push({key:index,text:v.Title});
